@@ -9,7 +9,7 @@ describe 'fixtures::reposerver' do
     }
   }
 
-  it {should include_class('mrepo')}
+  it {should contain_class('mrepo')}
 
   it {should contain_mrepo__repo('centos6-x86_64').with({
     'ensure' => 'present',
