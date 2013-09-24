@@ -36,7 +36,22 @@
 # Copyright 2013 Chris Ess
 #
 class fixtures::reposerver {
-  class { "mrepo": }
+  package { 'git':
+    ensure => installed
+  }
+
+  package { 'make':
+    ensure => installed
+  }
+
+  class { "mrepo::params":
+    source  => 'git',
+    require => [Package['git'], Package['make']]
+  }
+
+  class { "mrepo":
+    require => Class['mrepo::params']
+  }
 
   mrepo::repo { 'centos6-x86_64':
     ensure    => present,

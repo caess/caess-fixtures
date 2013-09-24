@@ -9,7 +9,22 @@ describe 'fixtures::reposerver' do
     }
   }
 
-  it {should contain_class('mrepo')}
+  it {should contain_package('git').with({
+    'ensure' => 'installed'
+  })}
+
+  it {should contain_package('make').with({
+    'ensure' => 'installed'
+  })}
+
+  it {should contain_class('mrepo').with({
+    'require' => 'Class[Mrepo::Params]'
+  })}
+
+  it {should contain_class('mrepo::params').with({
+    'source' => 'git',
+    'require' => ['Package[git]', 'Package[make]']
+  })}
 
   it {should contain_mrepo__repo('centos6-x86_64').with({
     'ensure' => 'present',
